@@ -17,6 +17,7 @@ public class AvitoParser {
     int k = 0;
 
     public void start() {
+        System.out.println(Thread.currentThread().getName());
         ChromeOptions options = new ChromeOptions();
         WebDriver driver = new ChromeDriver(options);
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
@@ -32,8 +33,7 @@ public class AvitoParser {
             } catch (Exception ee) {
                 System.out.println(ee.getMessage());
             }
-            if (k>5)
-                driver.quit();
+
         }
         stop();
 
