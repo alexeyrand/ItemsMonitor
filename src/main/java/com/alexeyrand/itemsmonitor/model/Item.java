@@ -11,13 +11,16 @@ import java.util.Objects;
 /** Класс, характеризующий конкретный товар.  */
 @Getter
 @Setter
-public class Item {
+public class Item implements Comparable<Item> {
     WebDriver driver;
     WebElement selector;
+    private static int count;
     private final String id;
     private final String name;
     private final String href;
     private final String price;
+    private final String date;
+    private final Integer order;
 
     public Item(WebElement selector) {
         this.selector = selector;
@@ -25,16 +28,14 @@ public class Item {
         this.id = selector.getAttribute("id").substring(1);
         this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("href");
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
+        this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
+        this.order = count;
+        count++;
     }
 
     @Override
-    public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", href ='" + href + '\'' +
-                '}';
+    public int compareTo(Item o) {
+        return this.id.compareTo(o.id);
     }
 
     @Override
@@ -48,5 +49,14 @@ public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", order='" + order + '\'' +
+                '}';
     }
 }

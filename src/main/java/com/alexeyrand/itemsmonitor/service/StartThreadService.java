@@ -11,7 +11,9 @@ public class StartThreadService {
     public void go(String url, String chatId) {
         ThreadParser parser = new ThreadParser(url, chatId);
         Thread thread = new Thread(parser);
+
         thread.start();
+
         System.out.println(Thread.currentThread().getName());
     }
 }
