@@ -2,34 +2,27 @@ package com.alexeyrand.itemsmonitor.api.controller;
 
 import com.alexeyrand.itemsmonitor.monitor.AvitoParser;
 import com.alexeyrand.itemsmonitor.monitor.Main;
+import com.alexeyrand.itemsmonitor.service.StartThreadService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TelegramBotController {
-    AvitoParser parser = new AvitoParser();
+    //AvitoParser parser = new AvitoParser();
+    StartThreadService service = new StartThreadService();
 
-    @Async
-    @GetMapping("/start")
-    public void startParse() throws InterruptedException {
+    @PostMapping("/start")
+    public void startParse(@RequestBody String chatId) throws InterruptedException {
 
         System.out.println("Запрос пришел. Монитор запущен");
-        //parser.start();
-        Main.startThread();
+        service.go("https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&s=104&user=1", chatId);
 
     }
 
     @GetMapping("/stop")
     public void stopParse() throws InterruptedException {
-        System.out.println("Начал ждать");
-        Thread.sleep(4000);
-        System.out.println(Thread.currentThread().getName());
-        System.out.println("Закончил ждать");
-        parser.stop();
+
     }
 
 }
