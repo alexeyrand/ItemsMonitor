@@ -19,22 +19,27 @@ public class AvitoParser {
     public void start() {
         System.out.println(Thread.currentThread().getName());
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("disable-infobars"); // disabling infobars
+        options.addArguments("--disable-extensions"); // disabling extensions
+        options.addArguments("--disable-gpu"); // applicable to windows os only
+        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        options.addArguments("--no-sandbox"); // Bypass OS security model
         WebDriver driver = new ChromeDriver(options);
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&s=104&user=1");
-        List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
-        for (WebElement e : selectors) {
-            k++;
-            Item item = new Item(e);
-            System.out.println(item.getName() + item.getPrice());
-            try {
-                Thread.sleep(3000);
-            } catch (Exception ee) {
-                System.out.println(ee.getMessage());
-            }
+        //List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
+//        for (WebElement e : selectors) {
+//            k++;
+//            Item item = new Item(e);
+//            System.out.println(item.getName() + item.getPrice());
+//            try {
+//                Thread.sleep(3000);
+//            } catch (Exception ee) {
+//                System.out.println(ee.getMessage());
+//            }
 
-        }
+        //}
         stop();
 
     }
