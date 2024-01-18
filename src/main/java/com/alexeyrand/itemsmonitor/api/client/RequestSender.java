@@ -19,7 +19,7 @@ public class RequestSender {
                 .timeout(Duration.ofMinutes(2))
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         //System.out.println(response.statusCode());
                 //.thenApply(HttpResponse::body)
                 //.thenAccept(System.out::println);

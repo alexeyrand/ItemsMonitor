@@ -14,7 +14,6 @@ import java.util.Objects;
 public class Item implements Comparable<Item> {
     WebDriver driver;
     WebElement selector;
-    private static int count;
     private final String id;
     private final String name;
     private final String href;
@@ -22,15 +21,15 @@ public class Item implements Comparable<Item> {
     private final String date;
     private final Integer order;
 
-    public Item(WebElement selector) {
+    public Item(WebElement selector, int order) {
         this.selector = selector;
         this.name = selector.findElement(By.cssSelector("h3[itemprop ='name']")).getText();
         this.id = selector.getAttribute("id").substring(1);
         this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("href");
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
-        this.order = count;
-        count++;
+        this.order = order;
+        //count++;
     }
 
     @Override

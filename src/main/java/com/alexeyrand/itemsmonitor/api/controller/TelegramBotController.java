@@ -1,5 +1,6 @@
 package com.alexeyrand.itemsmonitor.api.controller;
 
+import com.alexeyrand.itemsmonitor.monitor.Avito;
 import com.alexeyrand.itemsmonitor.service.StartThreadService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +13,12 @@ public class TelegramBotController {
     public void startParse(@RequestBody String chatId) {
 
         System.out.println("Монитор запущен");
+        //Avito avito = new Avito("https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&s=104&user=1", chatId);
+        //Thread thread = new Thread(avito);
+        //.start();
         service.go("https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple-ASgBAgICAkS0wA3OqzmwwQ2I_Dc?cd=1&s=104&user=1", chatId);
 
+       // service.go("https://www.avito.ru/moskva/telefony/mobilnye_telefony/apple/iphone_14-ASgBAgICA0SywA3MjuUQtMANzqs5sMENiPw3?cd=1&s=104&user=1", chatId);
     }
 
     @GetMapping("/stop")
