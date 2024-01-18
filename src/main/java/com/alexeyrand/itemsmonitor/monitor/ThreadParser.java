@@ -52,10 +52,10 @@ public class ThreadParser implements Runnable {
         driver.get(url);
         String[] dates = {"1 минуту назад", "2 минуты назад", "3 минуты назад", "4 минуты назад", "5 минут назад", "Несколько секунд назад"};
         while (true) {
-
             List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
             for (WebElement e : selectors) {
                 Item item = new Item(e);
+                System.out.println(item);
                 Predicate<Item> isContains = x -> items.contains(x);
                 if (!isContains.test(item) && Arrays.asList(dates).contains(item.getDate())) {
                     String body = item.getHref();
@@ -77,7 +77,7 @@ public class ThreadParser implements Runnable {
                     System.out.println("update");
                     driver.navigate().refresh();
                     try {
-                        TimeUnit.SECONDS.sleep(30);
+                        TimeUnit.SECONDS.sleep(4);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
