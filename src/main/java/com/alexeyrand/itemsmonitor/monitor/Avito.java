@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 import static org.openqa.selenium.By.xpath;
 
 
-public class Avito implements Runnable {
+public class Avito implements Runnable{
 
     String Url;
     String chatId;

@@ -1,31 +1,29 @@
 package com.alexeyrand.itemsmonitor.service;
 
+import com.alexeyrand.itemsmonitor.api.client.RequestSender;
 import com.alexeyrand.itemsmonitor.monitor.Avito;
-import com.alexeyrand.itemsmonitor.monitor.ThreadParser;
-import com.alexeyrand.itemsmonitor.monitor.ThreadParserTest;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Component;
+
+import java.net.URI;
 
 
 public class StartThreadService {
-
-    public void go(String url, String chatId) {
-//        ThreadParser parser = new ThreadParser(url, chatId);
-//        Thread thread = new Thread(parser);
-//        thread.start();
+    RequestSender requestSender = new RequestSender();
+    public void go(String url, String chatId, String messageId) {
+//
+//
 
         //Avito avito = new Avito(url, chatId);
         //Thread thread = new Thread(avito);
         //thread.start();
 
-        Avito parser1 = new Avito(url, chatId);
+        //Avito parser1 = new Avito(url, chatId);
         //Avito parser2 = new Avito(url, chatId);
-        Thread thread1 = new Thread(parser1);
+        //Thread thread1 = new Thread(parser1);
         //Thread thread2 = new Thread(parser2);
-        thread1.start();
+        //thread1.start();
         //thread2.start();
 
+        requestSender.statusRequest(URI.create("http://localhost:8080/status"), chatId, messageId);
         System.out.println(Thread.currentThread().getName());
     }
 }
