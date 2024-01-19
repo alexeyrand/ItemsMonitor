@@ -1,6 +1,7 @@
 package com.alexeyrand.itemsmonitor.service;
 
 import com.alexeyrand.itemsmonitor.api.client.RequestSender;
+import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
 import com.alexeyrand.itemsmonitor.monitor.Avito;
 
 import java.net.URI;
@@ -8,7 +9,7 @@ import java.net.URI;
 
 public class StartThreadService {
     RequestSender requestSender = new RequestSender();
-    public void go(String url, String chatId, String messageId) {
+    public void go(String url, String messageDto) {
 //
 //
 
@@ -23,7 +24,7 @@ public class StartThreadService {
         //thread1.start();
         //thread2.start();
 
-        requestSender.statusRequest(URI.create("http://localhost:8080/status"), chatId, messageId);
+        requestSender.statusRequest(URI.create("http://localhost:8080/api/v1/status"), messageDto);
         System.out.println(Thread.currentThread().getName());
     }
 }
