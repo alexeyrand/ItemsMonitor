@@ -2,6 +2,7 @@ package com.alexeyrand.itemsmonitor.monitor;
 
 import com.alexeyrand.itemsmonitor.api.client.RequestSender;
 import com.alexeyrand.itemsmonitor.model.Item;
+import com.alexeyrand.itemsmonitor.service.StateThread;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,13 +27,14 @@ public class AvitoParser implements Parser {
     private WebDriver driver;
     private RequestSender requestSender;
     private String chatId;
+    StateThread stateThread;
     HashSet<String> items = new HashSet<>();
     int order = 1;
     String[] dates = {"1 минуту назад", "2 минуты назад", "3 минуты назад", "4 минуты назад", "5 минут назад", "Несколько секунд назад"};
 
 
 
-    public AvitoParser(RequestSender requestSender, String chatId) {
+    public AvitoParser(RequestSender requestSender, String chatId, StateThread stateThread) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("disable-infobars"); // disabling infobars
         options.addArguments("--disable-extensions"); // disabling extensions
@@ -41,6 +43,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--no-sandbox"); // Bypass OS security model
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
+        this.stateThread = stateThread;
         this.chatId = chatId;
     }
 
@@ -91,6 +94,7 @@ public class AvitoParser implements Parser {
 
     public void stop() {
         System.out.println("stop");
+        stateThread.stopFlag = false;
     }
 
 }
