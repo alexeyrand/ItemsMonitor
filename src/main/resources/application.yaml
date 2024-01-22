@@ -1,7 +1,3 @@
 server:
   port: 9090
 
-monitor:
-  urls:
-    file:
-      name: urls.txt

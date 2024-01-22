@@ -1,7 +1,6 @@
 package com.alexeyrand.itemsmonitor.service;
 
 import com.alexeyrand.itemsmonitor.api.dto.UrlDto;
-import com.alexeyrand.itemsmonitor.config.MonitorConfig;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 public class UrlsHandlerService {
     private static Map<String, String> urlsMap = new HashMap<>();
-    private static MonitorConfig config = new MonitorConfig();
+
 
     public void setUrls(UrlDto urlDto) {
         urlsMap.put(urlDto.getName(), urlDto.getUrl());
