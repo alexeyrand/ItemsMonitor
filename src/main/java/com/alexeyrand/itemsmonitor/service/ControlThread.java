@@ -28,11 +28,7 @@ public class ControlThread {
 
         String[] split1 = urls.get(0).split(" -> ");
         String[] split2 = urls.get(1).split(" -> ");
-        String[] split3 = urls.get(0).split(" -> ");
-        //String[] split4 = urls.get(1).split(" -> ");
-
-        //String[] split3 = urls.get(0).split(" -> ");
-        //String[] split4 = urls.get(0).split(" -> ");
+        String[] split3 = urls.get(2).split(" -> ");
 
         Avito parser1 = new Avito(split1[1], messageDto, stateThread);
         Avito parser2 = new Avito(split2[1], messageDto, stateThread);

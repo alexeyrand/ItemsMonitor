@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /** Класс, характеризующий конкретный товар.  */
 @Getter
@@ -20,6 +21,8 @@ public class Item implements Comparable<Item> {
     private final String price;
     private final String date;
     private final Integer order;
+    private final String description;
+    private final String image;
 
     public Item(WebElement selector, int order) {
         this.selector = selector;
@@ -29,6 +32,14 @@ public class Item implements Comparable<Item> {
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.order = order;
+        this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
+        Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("img[class*='photo-slider-image']")).getAttribute("src"));
+        if (imageOptional.isPresent()) {
+            this.image = imageOptional.get();
+        } else {
+            this.image = "http://";
+        }
+
         //count++;
     }
 
