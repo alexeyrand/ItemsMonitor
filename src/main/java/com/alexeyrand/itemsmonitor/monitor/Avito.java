@@ -2,45 +2,54 @@ package com.alexeyrand.itemsmonitor.monitor;
 
 
 import com.alexeyrand.itemsmonitor.api.client.RequestSender;
+import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
 import com.alexeyrand.itemsmonitor.service.StateThread;
 
 
 public class Avito implements Runnable{
     RequestSender requestSender = new RequestSender();
     String Url;
-    String chatId;
+    MessageDto messageDto;
     StateThread stateThread;
 
-    public Avito(String Url, String chatId, StateThread stateThread) {
+    public Avito(String Url, MessageDto messageDto, StateThread stateThread) {
         this.Url = Url;
-        this.chatId = chatId;
+        this.messageDto = messageDto;
         this.stateThread = stateThread;
     }
 
     @Override
     public void run() {
 
-        Parser avitoParser = new AvitoParser(requestSender, chatId, stateThread);
+        Parser avitoParser = new AvitoParser(requestSender, messageDto, stateThread);
         System.out.println(Thread.currentThread().getName());
 
         avitoParser.setup();
         avitoParser.openBrowser(Url);
-        System.out.println("Открыл");
+//        System.out.println("Открыл");
 
-        while (stateThread.startFlag) {
+        while (!Thread.interrupted()) {
             avitoParser.start();
-            avitoParser.update();
+ //           System.out.println("Товаров нет, обновляем");
             try {
-                Thread.sleep(180000);
+                avitoParser.update();
+                avitoParser.sleep(120);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+ //               System.out.println("Прерываю поток");
+                Thread.currentThread().interrupt();
+                break;
             }
-            if (!stateThread.stopFlag) {
-                avitoParser.stop();
+
+            if (stateThread.isStopFlag()) {
+                try {
+                    avitoParser.stop();
+                } catch (InterruptedException e) {
+ //                   System.out.println("Прерываю поток");
+                    break;
+                }
+                break;
             }
         }
-
-        //
+        System.out.println("Останавливаю парсер " + Thread.currentThread().getName() + Thread.currentThread().isAlive());
     }
-
 }

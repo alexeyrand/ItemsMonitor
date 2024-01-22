@@ -1,5 +1,6 @@
 package com.alexeyrand.itemsmonitor.api.client;
 
+import com.alexeyrand.itemsmonitor.api.dto.ItemDto;
 import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +17,15 @@ import java.util.concurrent.ExecutionException;
 
 public class RequestSender {
 
-    public void postRequest(URI url, String body) throws IOException, InterruptedException {
+    public void postItemRequest(URI url, ItemDto itemDto) throws IOException, InterruptedException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonItemDto = null;
+        try {
+            jsonItemDto = mapper.writeValueAsString(itemDto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(20))
                 .build();
@@ -24,15 +33,18 @@ public class RequestSender {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .timeout(Duration.ofMinutes(2))
-                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(jsonItemDto))
                 .build();
-
-        CompletableFuture<HttpResponse<String>> responseFuture = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-        try {
-            String response = responseFuture.get().toString();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+//        System.out.println(request.toString());
+//        CompletableFuture<HttpResponse<String>> responseFuture =
+                client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+//        try {
+//            String response = responseFuture.get().toString();
+//
+//        } catch (ExecutionException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
@@ -44,8 +56,7 @@ public class RequestSender {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(jsonMessageDto);
-        System.out.println(url);
+
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(20))
                 .build();

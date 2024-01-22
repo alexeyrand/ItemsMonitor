@@ -5,22 +5,17 @@ import com.alexeyrand.itemsmonitor.api.dto.UrlDto;
 import com.alexeyrand.itemsmonitor.service.ControlThread;
 import com.alexeyrand.itemsmonitor.service.StateThread;
 import com.alexeyrand.itemsmonitor.service.UrlsHandlerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
 public class MonitorController {
-
-    ControlThread service = new ControlThread();
-    UrlsHandlerService urlsHandlerService = new UrlsHandlerService();
-    StateThread stateThread;
-
-    MonitorController(StateThread stateThread) {
-        this.stateThread = stateThread;
-    }
-
-
-
+    @Autowired
+    private StateThread stateThread;
+    @Autowired
+    private ControlThread controlThread;
+    private final UrlsHandlerService urlsHandlerService = new UrlsHandlerService();
 
     private static final String START = "/start";
     private static final String STOP = "/stop";
@@ -29,22 +24,19 @@ public class MonitorController {
     @PostMapping(value = START, consumes = {"application/json"})
     public void startParse(@RequestBody MessageDto messageDto) {
         System.out.println("Монитор запущен");
-        service.go(messageDto);
-
+        controlThread.go(messageDto);
     }
 
-    @GetMapping(STOP)
+    @GetMapping(value = STOP)
     public void stopParse() {
-
+        System.out.println("Команда на остановку потоков");
+        stateThread.setStopFlag(true);
     }
 
     @PostMapping(value = URLS, consumes = {"application/json"})
     public void getUrl(@RequestBody UrlDto urlDto) {
-        System.out.println("Я тут");
         System.out.println(urlDto);
         urlsHandlerService.setUrls(urlDto);
-        //System.out.println(urlDto.getName());
-        //System.out.println(urlDto.getUrl());
     }
 
 
@@ -54,6 +46,4 @@ public class MonitorController {
         Thread.sleep(10000);
         return "Hello";
         }
-
-
 }
