@@ -6,7 +6,7 @@ import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
 import com.alexeyrand.itemsmonitor.service.StateThread;
 
 
-public class Avito implements Runnable{
+public class Avito implements Runnable {
     RequestSender requestSender = new RequestSender();
     String Url;
     MessageDto messageDto;
@@ -30,12 +30,14 @@ public class Avito implements Runnable{
 
         while (!Thread.interrupted()) {
             avitoParser.start();
- //           System.out.println("Товаров нет, обновляем");
+            if (Thread.interrupted()) {
+                break;
+            }
             try {
+                System.out.println("Обновляю");
                 avitoParser.update();
                 avitoParser.sleep(120);
             } catch (InterruptedException e) {
- //               System.out.println("Прерываю поток");
                 Thread.currentThread().interrupt();
                 break;
             }
@@ -43,11 +45,11 @@ public class Avito implements Runnable{
             if (stateThread.isStopFlag()) {
                 try {
                     avitoParser.stop();
+                    break;
                 } catch (InterruptedException e) {
- //                   System.out.println("Прерываю поток");
+                    Thread.currentThread().interrupt();
                     break;
                 }
-                break;
             }
         }
         System.out.println("Останавливаю парсер " + Thread.currentThread().getName() + Thread.currentThread().isAlive());

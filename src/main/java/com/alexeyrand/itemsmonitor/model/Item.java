@@ -3,6 +3,7 @@ package com.alexeyrand.itemsmonitor.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -22,7 +23,7 @@ public class Item implements Comparable<Item> {
     private final String date;
     private final Integer order;
     private final String description;
-    private final String image;
+    private String image;
 
     public Item(WebElement selector, int order) {
         this.selector = selector;
@@ -33,13 +34,14 @@ public class Item implements Comparable<Item> {
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.order = order;
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
-        Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("img[class*='photo-slider-image']")).getAttribute("src"));
-        if (imageOptional.isPresent()) {
-            this.image = imageOptional.get();
-        } else {
-            this.image = "http://";
-        }
+        this.image = "No photo";
+        Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
+try {
+    this.image = imageOptional.orElse("No photo");
+} catch (NoSuchElementException NSEE) {
+    System.out.println(NSEE.getMessage());
 
+}
         //count++;
     }
 

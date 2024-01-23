@@ -41,7 +41,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
         this.stateThread = stateThread;
@@ -90,7 +90,7 @@ public class AvitoParser implements Parser {
                     throw new RuntimeException(ex);
                 }
             } else {
-                //System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
+                System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
                 break;
             }
 
