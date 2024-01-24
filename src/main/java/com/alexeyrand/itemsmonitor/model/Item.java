@@ -34,14 +34,14 @@ public class Item implements Comparable<Item> {
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.order = order;
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
-        this.image = "No photo";
-        Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
-try {
-    this.image = imageOptional.orElse("No photo");
-} catch (NoSuchElementException NSEE) {
-    System.out.println(NSEE.getMessage());
+        this.image = selector.findElement(By.xpath("//*[@*]/div/div/div[*]/a/div/div/ul/li/div/img")).getAttribute("src");
+      //  Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
+//try {
+//    this.image = imageOptional.orElse("No photo");
+//} catch (NoSuchElementException NSEE) {
+//    System.out.println(NSEE.getMessage());
 
-}
+//}
         //count++;
     }
 

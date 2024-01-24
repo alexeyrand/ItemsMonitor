@@ -71,8 +71,9 @@ public class AvitoParser implements Parser {
             TimeUnit.SECONDS.sleep(2);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
-            if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
+            //if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
                 String name = item.getName();
+                String image = item.getImage();
 //                System.out.println(Thread.currentThread().getName() + " " + item.getName());
 
 
@@ -89,13 +90,13 @@ public class AvitoParser implements Parser {
                 } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
-            } else {
-                System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
-                break;
-            }
+//            } else {
+//                System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
+//                break;
+//            }
 
-            if (!Arrays.asList(dates).contains(item.getDate()))
-                break;
+//            if (!Arrays.asList(dates).contains(item.getDate()))
+//                break;
         }
     }
 
