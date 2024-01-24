@@ -7,9 +7,7 @@ import com.alexeyrand.itemsmonitor.api.factories.ItemDtoFactory;
 import com.alexeyrand.itemsmonitor.model.Item;
 import com.alexeyrand.itemsmonitor.service.StateThread;
 import lombok.SneakyThrows;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -52,7 +50,7 @@ public class AvitoParser implements Parser {
 
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     public void update() throws InterruptedException {
@@ -62,27 +60,30 @@ public class AvitoParser implements Parser {
 
     public void openBrowser(String URL) {
         driver.get(URL);
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollBy(0, 950)");
+
+        //driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
+
 
     }
 
     @SneakyThrows
     public void start() {
-
+        int y = 0;
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         for (WebElement e : selectors) {
+            jse.executeScript("window.scrollBy(0, " + y + 1000 + ")");
             if (stateThread.isStopFlag()) {
                 stop();
                 break;
             }
-            Thread.sleep(4000);
-            TimeUnit.SECONDS.sleep(2);
+
+            TimeUnit.SECONDS.sleep(4);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
-                String name = item.getName();
-                String image = item.getImage();
+//                String name = item.getName();
+//                String image = item.getImage();
 //                System.out.println(Thread.currentThread().getName() + " " + item.getName());
 
 
