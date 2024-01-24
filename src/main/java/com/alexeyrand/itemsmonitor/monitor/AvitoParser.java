@@ -7,6 +7,7 @@ import com.alexeyrand.itemsmonitor.api.factories.ItemDtoFactory;
 import com.alexeyrand.itemsmonitor.model.Item;
 import com.alexeyrand.itemsmonitor.service.StateThread;
 import lombok.SneakyThrows;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -26,6 +27,7 @@ import static org.openqa.selenium.By.xpath;
 public class AvitoParser implements Parser {
 
     private WebDriver driver;
+
     private RequestSender requestSender;
     private MessageDto messageDto;
     private ItemDtoFactory itemDtoFactory = new ItemDtoFactory();
@@ -41,7 +43,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
         this.stateThread = stateThread;
@@ -60,6 +62,9 @@ public class AvitoParser implements Parser {
 
     public void openBrowser(String URL) {
         driver.get(URL);
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollBy(0, 950)");
+
     }
 
     @SneakyThrows
@@ -67,18 +72,22 @@ public class AvitoParser implements Parser {
 
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         for (WebElement e : selectors) {
+            if (stateThread.isStopFlag()) {
+                stop();
+                break;
+            }
             Thread.sleep(4000);
             TimeUnit.SECONDS.sleep(2);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
-            //if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
+            if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
                 String name = item.getName();
                 String image = item.getImage();
 //                System.out.println(Thread.currentThread().getName() + " " + item.getName());
 
 
                 items.add(item.getId());
-                if (items.size() > 25) {
+                if (items.size() > 30) {
                     items = new HashSet<>();
                     System.gc();
                 }
@@ -90,13 +99,13 @@ public class AvitoParser implements Parser {
                 } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
-//            } else {
-//                System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
-//                break;
-//            }
+            } else {
+                //System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
+                break;
+            }
 
-//            if (!Arrays.asList(dates).contains(item.getDate()))
-//                break;
+            if (!Arrays.asList(dates).contains(item.getDate()))
+                break;
         }
     }
 

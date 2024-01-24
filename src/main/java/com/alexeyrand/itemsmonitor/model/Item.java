@@ -34,8 +34,16 @@ public class Item implements Comparable<Item> {
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.order = order;
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
-        this.image = selector.findElement(By.xpath("//*[@*]/div/div/div[*]/a/div/div/ul/li/div/img")).getAttribute("src");
-      //  Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
+        try {
+            System.out.println("Пробую достать изображение");
+            this.image = selector.findElement(By.xpath("//*[@id=\"i" + this.id + "\"]/div/div/div[1]/a/div/div/ul/li/div/img")).getAttribute("src");
+            System.out.println("Достал изображение");
+        } catch (NoSuchElementException NSEE) {
+            System.out.println("Пробую достать видео");
+            this.image = selector.findElement(By.cssSelector("img[class*='native-video-thum']")).getAttribute("src");
+            System.out.println("Достал видео");
+        }
+        //  Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
 //try {
 //    this.image = imageOptional.orElse("No photo");
 //} catch (NoSuchElementException NSEE) {
