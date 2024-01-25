@@ -22,7 +22,7 @@ public class UrlsHandlerService {
     public void setUrls(UrlDto urlDto) {
         urlsMap.put(urlDto.getName(), urlDto.getUrl());
         try {
-            Files.write(Paths.get("urls.txt"),
+            Files.write(Paths.get("new_urls.txt"),
                     urlsMap.entrySet().stream().map(k -> k.getKey() + " -> " + k.getValue()).collect(Collectors.toList()),
                     StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class UrlsHandlerService {
         }
 
         try {
-            Files.lines(Paths.get("urls.txt"), StandardCharsets.UTF_8).forEach(System.out::println);
+            Files.lines(Paths.get("new_urls.txt"), StandardCharsets.UTF_8).forEach(System.out::println);
         } catch (IOException e) {
             System.out.println("fsfsf");
             throw new RuntimeException(e);
@@ -41,7 +41,7 @@ public class UrlsHandlerService {
         List<String> lines = new ArrayList<>();
         Reader r;
         try {
-            r = new FileReader("urls.txt");
+            r = new FileReader("new_urls.txt");
         } catch (
                 FileNotFoundException e) {
             throw new RuntimeException(e);
