@@ -40,9 +40,12 @@ public class Item implements Comparable<Item> {
             this.image = imageSet.split(",")[4].split(" ")[0];
             //System.out.println("Достал изображение");
         } catch (NoSuchElementException NSEE) {
-            //System.out.println("Пробую достать видео");
-            this.image = selector.findElement(By.cssSelector("img[class*='native-video-thum']")).getAttribute("src");
-            //System.out.println("Достал видео");
+            try {//System.out.println("Пробую достать видео");
+                this.image = selector.findElement(By.cssSelector("img[class*='native-video-thum']")).getAttribute("src");
+            } catch (NoSuchElementException NSE) {
+                this.image = "";
+                //System.out.println("Достал видео");
+            }
         }
         //  Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
 //try {

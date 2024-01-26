@@ -24,11 +24,11 @@ import static org.openqa.selenium.By.xpath;
 
 public class AvitoParser implements Parser {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
-    private RequestSender requestSender;
-    private MessageDto messageDto;
-    private ItemDtoFactory itemDtoFactory = new ItemDtoFactory();
+    private final RequestSender requestSender;
+    private final MessageDto messageDto;
+    private final ItemDtoFactory itemDtoFactory = new ItemDtoFactory();
     StateThread stateThread;
     HashSet<String> items = new HashSet<>();
     int order = 1;
@@ -41,7 +41,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
         this.stateThread = stateThread;
@@ -54,7 +54,7 @@ public class AvitoParser implements Parser {
     }
 
     public void update() throws InterruptedException {
-//        System.out.println(Thread.currentThread().getName() + " обновляется...");
+        System.out.println(Thread.currentThread().getName() + " обновляется...");
         driver.navigate().refresh();
     }
 
@@ -78,30 +78,30 @@ public class AvitoParser implements Parser {
                 break;
             }
 
-            TimeUnit.SECONDS.sleep(4);
+            TimeUnit.SECONDS.sleep(8);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
+            //System.out.println(item.getDate() + "   " + Arrays.asList(dates).contains(item.getDate()));
+
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
 //                String name = item.getName();
 //                String image = item.getImage();
-//                System.out.println(Thread.currentThread().getName() + " " + item.getName());
+                System.out.println(item.getDate());
 
 
                 items.add(item.getId());
-                if (items.size() > 30) {
+                if (items.size() > 50) {
                     items = new HashSet<>();
                     System.gc();
                 }
 
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
-
                 try {
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
                 } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
             } else {
-                //System.out.println(Thread.currentThread().getName() + "Новых товаров нет");
                 break;
             }
 

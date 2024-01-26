@@ -26,17 +26,16 @@ public class Avito implements Runnable {
 
         avitoParser.setup();
         avitoParser.openBrowser(Url);
-//        System.out.println("Открыл");
 
         while (!Thread.interrupted()) {
+            //System.out.println("Начало цикла " + Thread.currentThread().getName());
             avitoParser.start();
             if (Thread.interrupted()) {
                 break;
             }
             try {
-                System.out.println("Обновляю");
                 avitoParser.update();
-                avitoParser.sleep(120);
+                avitoParser.sleep(75);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
