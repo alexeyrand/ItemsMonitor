@@ -35,7 +35,7 @@ public class Avito implements Runnable {
             }
             try {
                 avitoParser.update();
-                avitoParser.sleep(75);
+                avitoParser.sleep(45);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;

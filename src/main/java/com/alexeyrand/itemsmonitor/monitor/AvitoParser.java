@@ -60,10 +60,6 @@ public class AvitoParser implements Parser {
 
     public void openBrowser(String URL) {
         driver.get(URL);
-
-        //driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
-
-
     }
 
     @SneakyThrows
@@ -84,13 +80,9 @@ public class AvitoParser implements Parser {
             //System.out.println(item.getDate() + "   " + Arrays.asList(dates).contains(item.getDate()));
 
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
-//                String name = item.getName();
-//                String image = item.getImage();
-                System.out.println(item.getDate());
-
 
                 items.add(item.getId());
-                if (items.size() > 50) {
+                if (items.size() > 40) {
                     items = new HashSet<>();
                     System.gc();
                 }
