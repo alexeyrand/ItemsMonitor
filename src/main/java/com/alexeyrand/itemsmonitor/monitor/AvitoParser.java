@@ -54,7 +54,7 @@ public class AvitoParser implements Parser {
     }
 
     public void update() throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " обновляется...");
+        //System.out.println(Thread.currentThread().getName() + " обновляется...");
         driver.navigate().refresh();
     }
 
@@ -74,7 +74,7 @@ public class AvitoParser implements Parser {
                 break;
             }
 
-            TimeUnit.SECONDS.sleep(8);
+            TimeUnit.SECONDS.sleep(6);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
             //System.out.println(item.getDate() + "   " + Arrays.asList(dates).contains(item.getDate()));
@@ -89,6 +89,7 @@ public class AvitoParser implements Parser {
 
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
                 try {
+                    System.out.println(item.getDate());
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
                 } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
