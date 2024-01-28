@@ -89,7 +89,6 @@ public class AvitoParser implements Parser {
 
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
                 try {
-                    System.out.println(item.getDate());
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
                 } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
