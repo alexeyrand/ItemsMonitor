@@ -1,7 +1,7 @@
-package com.alexeyrand.itemsmonitor.api.client;
+package com.alexeyrand.monitor.api.client;
 
-import com.alexeyrand.itemsmonitor.api.dto.ItemDto;
-import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
+import com.alexeyrand.monitor.api.dto.ItemDto;
+import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +12,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class RequestSender {
 

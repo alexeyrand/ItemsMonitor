@@ -1,7 +1,7 @@
-package com.alexeyrand.itemsmonitor.api.factories;
+package com.alexeyrand.monitor.api.factories;
 
-import com.alexeyrand.itemsmonitor.api.dto.ItemDto;
-import com.alexeyrand.itemsmonitor.model.Item;
+import com.alexeyrand.monitor.api.dto.ItemDto;
+import com.alexeyrand.monitor.model.Item;
 import org.springframework.stereotype.Component;
 
 @Component

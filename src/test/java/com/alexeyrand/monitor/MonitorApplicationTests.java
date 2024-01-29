@@ -1,10 +1,10 @@
-package com.alexeyrand.itemsmonitor;
+package com.alexeyrand.monitor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ItemsMonitorApplicationTests {
+class MonitorApplicationTests {
 
     @Test
     void contextLoads() {

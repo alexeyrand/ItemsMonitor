@@ -1,13 +1,12 @@
-package com.alexeyrand.itemsmonitor.service;
+package com.alexeyrand.monitor.service;
 
-import com.alexeyrand.itemsmonitor.api.dto.UrlDto;
+import com.alexeyrand.monitor.api.dto.UrlDto;
 import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;

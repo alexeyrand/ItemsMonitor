@@ -1,7 +1,6 @@
-package com.alexeyrand.itemsmonitor.config;
+package com.alexeyrand.monitor.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 

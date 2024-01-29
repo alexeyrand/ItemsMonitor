@@ -1,4 +1,4 @@
-package com.alexeyrand.itemsmonitor.model;
+package com.alexeyrand.monitor.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /** Класс, характеризующий конкретный товар.  */
 @Getter

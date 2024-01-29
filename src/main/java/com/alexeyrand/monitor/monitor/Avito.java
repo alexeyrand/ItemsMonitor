@@ -1,9 +1,9 @@
-package com.alexeyrand.itemsmonitor.monitor;
+package com.alexeyrand.monitor.monitor;
 
 
-import com.alexeyrand.itemsmonitor.api.client.RequestSender;
-import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
-import com.alexeyrand.itemsmonitor.service.StateThread;
+import com.alexeyrand.monitor.api.client.RequestSender;
+import com.alexeyrand.monitor.api.dto.MessageDto;
+import com.alexeyrand.monitor.service.StateThread;
 
 
 public class Avito implements Runnable {

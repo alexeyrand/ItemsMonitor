@@ -1,4 +1,4 @@
-package com.alexeyrand.itemsmonitor.monitor;
+package com.alexeyrand.monitor.monitor;
 
 public interface Parser {
     void start();

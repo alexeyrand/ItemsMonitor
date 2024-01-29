@@ -1,4 +1,4 @@
-package com.alexeyrand.itemsmonitor.api.dto;
+package com.alexeyrand.monitor.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;

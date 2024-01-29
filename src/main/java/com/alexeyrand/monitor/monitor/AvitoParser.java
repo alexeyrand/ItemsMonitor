@@ -1,11 +1,11 @@
-package com.alexeyrand.itemsmonitor.monitor;
+package com.alexeyrand.monitor.monitor;
 
-import com.alexeyrand.itemsmonitor.api.client.RequestSender;
-import com.alexeyrand.itemsmonitor.api.dto.ItemDto;
-import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
-import com.alexeyrand.itemsmonitor.api.factories.ItemDtoFactory;
-import com.alexeyrand.itemsmonitor.model.Item;
-import com.alexeyrand.itemsmonitor.service.StateThread;
+import com.alexeyrand.monitor.api.client.RequestSender;
+import com.alexeyrand.monitor.api.dto.ItemDto;
+import com.alexeyrand.monitor.api.dto.MessageDto;
+import com.alexeyrand.monitor.api.factories.ItemDtoFactory;
+import com.alexeyrand.monitor.model.Item;
+import com.alexeyrand.monitor.service.StateThread;
 import lombok.SneakyThrows;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;

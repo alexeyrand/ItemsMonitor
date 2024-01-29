@@ -1,10 +1,10 @@
-package com.alexeyrand.itemsmonitor.api.controller;
+package com.alexeyrand.monitor.api.controller;
 
-import com.alexeyrand.itemsmonitor.api.dto.MessageDto;
-import com.alexeyrand.itemsmonitor.api.dto.UrlDto;
-import com.alexeyrand.itemsmonitor.service.ControlThread;
-import com.alexeyrand.itemsmonitor.service.StateThread;
-import com.alexeyrand.itemsmonitor.service.UrlsHandlerService;
+import com.alexeyrand.monitor.api.dto.MessageDto;
+import com.alexeyrand.monitor.api.dto.UrlDto;
+import com.alexeyrand.monitor.service.ControlThread;
+import com.alexeyrand.monitor.service.StateThread;
+import com.alexeyrand.monitor.service.UrlsHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
