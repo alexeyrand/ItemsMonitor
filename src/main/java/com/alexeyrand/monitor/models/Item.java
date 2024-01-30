@@ -1,4 +1,4 @@
-package com.alexeyrand.monitor.model;
+package com.alexeyrand.monitor.models;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -82,4 +82,5 @@ public class Item implements Comparable<Item> {
                 ", order='" + order + '\'' +
                 '}';
     }
+
 }

@@ -4,7 +4,7 @@ import com.alexeyrand.monitor.api.client.RequestSender;
 import com.alexeyrand.monitor.api.dto.ItemDto;
 import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.alexeyrand.monitor.api.factories.ItemDtoFactory;
-import com.alexeyrand.monitor.model.Item;
+import com.alexeyrand.monitor.models.Item;
 import com.alexeyrand.monitor.service.StateThread;
 import lombok.SneakyThrows;
 import org.openqa.selenium.*;
@@ -41,7 +41,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
         this.stateThread = stateThread;
@@ -53,8 +53,7 @@ public class AvitoParser implements Parser {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
-    public void update() throws InterruptedException {
-        //System.out.println(Thread.currentThread().getName() + " обновляется...");
+    public void update() {
         driver.navigate().refresh();
     }
 
@@ -82,7 +81,7 @@ public class AvitoParser implements Parser {
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
 
                 items.add(item.getId());
-                if (items.size() > 40) {
+                if (items.size() > 20) {
                     items = new HashSet<>();
                     System.gc();
                 }

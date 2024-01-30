@@ -1,4 +1,4 @@
-package com.alexeyrand.monitor.api.controller;
+package com.alexeyrand.monitor.api.controllers;
 
 import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.alexeyrand.monitor.api.dto.UrlDto;
