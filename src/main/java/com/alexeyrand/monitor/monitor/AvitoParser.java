@@ -76,12 +76,11 @@ public class AvitoParser implements Parser {
             TimeUnit.SECONDS.sleep(6);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
-            //System.out.println(item.getDate() + "   " + Arrays.asList(dates).contains(item.getDate()));
 
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
 
                 items.add(item.getId());
-                if (items.size() > 20) {
+                if (items.size() > 24) {
                     items = new HashSet<>();
                     System.gc();
                 }
@@ -102,7 +101,7 @@ public class AvitoParser implements Parser {
     }
 
 
-    public void stop() throws InterruptedException {
+    public void stop() {
         System.out.println("stop");
         driver.quit();
         Thread.currentThread().interrupt();
