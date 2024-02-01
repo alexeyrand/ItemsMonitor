@@ -9,8 +9,8 @@
 + Интеграция с Дискрод сервером
 ### **Общая структурная схема архитектуры**
 [Monitor telegram bot](https://github.com/alexeyrand/MonitorTelegramBot/blob/main/README.md) - представляет из себя spring boot приложение, отвечающее за функционирование телеграм бота.  
-Monitor - spring boot приложение, в котором сосредаточена основная бизнес логика парсинга и мониторинга страниц.
-![Structure schema](https://github.com/alexeyrand/MonitorTelegramBot/images/schema.png)
+Monitor - spring boot приложение, в котором сосредаточена основная бизнес логика парсинга и мониторинга страниц.  
+![Structure schema](images\schema.png)
 
 ### **Технологии**
 + Java 17
