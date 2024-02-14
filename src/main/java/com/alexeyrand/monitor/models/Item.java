@@ -23,6 +23,7 @@ public class Item implements Comparable<Item> {
     private final Integer order;
     private final String description;
     private String image;
+    private String shop;
 
     public Item(WebElement selector, int order) {
         this.selector = selector;
@@ -33,18 +34,22 @@ public class Item implements Comparable<Item> {
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.order = order;
         this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
+
         try {
-            //System.out.println("Пробую достать изображение");
             String imageSet = selector.findElement(By.xpath("//*[@id=\"i" + this.id + "\"]/div/div/div[1]/a/div/div/ul/li/div/img")).getAttribute("srcset");
             this.image = imageSet.split(",")[4].split(" ")[0];
-            //System.out.println("Достал изображение");
         } catch (NoSuchElementException NSEE) {
-            try {//System.out.println("Пробую достать видео");
+            try {
                 this.image = selector.findElement(By.cssSelector("img[class*='native-video-thum']")).getAttribute("src");
             } catch (NoSuchElementException NSE) {
                 this.image = "";
-                //System.out.println("Достал видео");
             }
+        }
+
+        try {
+            this.shop = selector.findElement(By.xpath("//*[@id=\"i" + id + "\"]/div/div/div[3]/div/div[1]/div/div[1]/a")).getAttribute("href");
+        } catch (NoSuchElementException NSEE) {
+             this.shop = "";
         }
         //  Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
 //try {

@@ -41,7 +41,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
         this.stateThread = stateThread;
@@ -84,7 +84,7 @@ public class AvitoParser implements Parser {
                     items = new HashSet<>();
                     System.gc();
                 }
-
+                System.out.println(item.getShop());
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
                 try {
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
