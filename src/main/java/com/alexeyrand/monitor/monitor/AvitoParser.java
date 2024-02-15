@@ -29,6 +29,8 @@ public class AvitoParser implements Parser {
     private final RequestSender requestSender;
     private final MessageDto messageDto;
     private final ItemDtoFactory itemDtoFactory = new ItemDtoFactory();
+    private final JavascriptExecutor jse;
+
     StateThread stateThread;
     HashSet<String> items = new HashSet<>();
     int order = 1;
@@ -42,8 +44,11 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-javascript");
-        options.addArguments("--headless");
+
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
+
+        this.jse = (JavascriptExecutor) driver;
         this.requestSender = requestSender;
         this.stateThread = stateThread;
         this.messageDto = messageDto;
@@ -51,6 +56,7 @@ public class AvitoParser implements Parser {
 
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
@@ -64,10 +70,10 @@ public class AvitoParser implements Parser {
 
     @SneakyThrows
     public void start() {
-        int y = 0;
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        //int y = 0;
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
-        jse.executeScript("window.scrollBy(0, " + y + 3800 + ")");
+        Thread.sleep(8000);
+        jse.executeScript("window.scrollBy(0, " + 3800 + ")");
         for (WebElement e : selectors) {
 
             if (stateThread.isStopFlag()) {
@@ -75,11 +81,12 @@ public class AvitoParser implements Parser {
                 break;
             }
 
-            TimeUnit.SECONDS.sleep(6);
+            TimeUnit.SECONDS.sleep(4);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
 
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
+                driver.manage().deleteAllCookies();
                 items.add(item.getId());
                 if (items.size() > 15) {
                     items = new HashSet<>();
@@ -101,7 +108,6 @@ public class AvitoParser implements Parser {
                 break;
         }
     }
-
 
     public void stop() {
         System.out.println("stop");
