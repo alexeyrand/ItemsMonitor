@@ -15,4 +15,5 @@ public class StateThread {
 
     private boolean startFlag = true;
     private boolean stopFlag = false;
+    boolean stopWD = false;
 }

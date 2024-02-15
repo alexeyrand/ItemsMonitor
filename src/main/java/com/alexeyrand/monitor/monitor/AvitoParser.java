@@ -41,7 +41,8 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
-        //options.addArguments("--headless");
+        options.addArguments("--disable-javascript");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         this.requestSender = requestSender;
         this.stateThread = stateThread;
@@ -66,8 +67,9 @@ public class AvitoParser implements Parser {
         int y = 0;
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
+        jse.executeScript("window.scrollBy(0, " + y + 3800 + ")");
         for (WebElement e : selectors) {
-            jse.executeScript("window.scrollBy(0, " + y + 1000 + ")");
+
             if (stateThread.isStopFlag()) {
                 stop();
                 break;
@@ -78,12 +80,12 @@ public class AvitoParser implements Parser {
             Predicate<String> isContains = x -> items.contains(x);
 
             if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
-
                 items.add(item.getId());
-                if (items.size() > 24) {
+                if (items.size() > 15) {
                     items = new HashSet<>();
                     System.gc();
                 }
+
                 System.out.println(item.getShop());
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
                 try {
