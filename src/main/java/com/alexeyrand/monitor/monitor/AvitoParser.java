@@ -70,12 +70,12 @@ public class AvitoParser implements Parser {
 
     @SneakyThrows
     public void start() {
-        //int y = 0;
+        int y = 0;
         List<WebElement> selectors = driver.findElements(xpath("//div[@data-marker='item']"));
         Thread.sleep(8000);
-        jse.executeScript("window.scrollBy(0, " + 3800 + ")");
+        //jse.executeScript("window.scrollBy(0, " + 3800 + ")");
         for (WebElement e : selectors) {
-
+            jse.executeScript("window.scrollBy(0, " + y + 1000 + ")");
             if (stateThread.isStopFlag()) {
                 stop();
                 break;
