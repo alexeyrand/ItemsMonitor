@@ -6,6 +6,7 @@ import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.alexeyrand.monitor.api.factories.ItemDtoFactory;
 import com.alexeyrand.monitor.models.Item;
 import com.alexeyrand.monitor.models.ShopEntity;
+import com.alexeyrand.monitor.serviceThread.DAO;
 import com.alexeyrand.monitor.serviceThread.StateThread;
 import com.alexeyrand.monitor.services.ShopService;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ import java.util.function.Predicate;
 
 import static org.openqa.selenium.By.xpath;
 
-@Component
+//@Component
 //@RequiredArgsConstructor
 //@AllArgsConstructor
 public class AvitoParser implements Parser {
@@ -35,6 +36,7 @@ public class AvitoParser implements Parser {
     private final WebDriver driver;
 
     private final RequestSender requestSender;
+    private final DAO dao;
     private final MessageDto messageDto;
     private final ItemDtoFactory itemDtoFactory = new ItemDtoFactory();
     private final JavascriptExecutor jse;
@@ -45,7 +47,7 @@ public class AvitoParser implements Parser {
     int order = 1;
     String[] dates = {"1 минуту назад", "2 минуты назад", "3 минуты назад", "4 минуты назад", "5 минут назад", "Несколько секунд назад"};
 
-    public AvitoParser(RequestSender requestSender, MessageDto messageDto, StateThread stateThread) {
+    public AvitoParser(RequestSender requestSender, MessageDto messageDto, StateThread stateThread, DAO dao) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("disable-infobars"); // disabling infobars
         options.addArguments("--disable-extensions"); // disabling extensions
@@ -61,6 +63,8 @@ public class AvitoParser implements Parser {
         this.requestSender = requestSender;
         this.stateThread = stateThread;
         this.messageDto = messageDto;
+        this.dao = dao;
+
     }
 
     public void setup() {
@@ -75,6 +79,7 @@ public class AvitoParser implements Parser {
 
     public void openBrowser(String URL) {
         driver.get(URL);
+        dao.test();
     }
 
     @SneakyThrows
@@ -102,8 +107,8 @@ public class AvitoParser implements Parser {
                     System.gc();
                 }
 
-                shopService.save(ShopEntity.builder().shopName(item.getShop()).build());
-                System.out.println(shopService.getAll());
+                //shopService.save(ShopEntity.builder().shopName(item.getShop()).build());
+                //System.out.println(shopService.getAll());
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
                 try {
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);

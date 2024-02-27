@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 
 @Component
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequiredArgsConstructor
 public class ControlThread {
     private static final RequestSender requestSender = new RequestSender();
@@ -19,7 +19,8 @@ public class ControlThread {
     private static final String host = "http://localhost:8080/api/v1/status";
     @Autowired
     private StateThread stateThread;
-
+    @Autowired
+    private DAO dao;
     public void go(MessageDto messageDto) {
 
         //List<String> urls = urlsHandlerService.getUrls();
@@ -27,11 +28,12 @@ public class ControlThread {
 //        String[] split1 = urls.get(0).split(" -> ");
 //        String[] split2 = urls.get(1).split(" -> ");
 //        String[] split3 = urls.get(2).split(" -> ");
+
         String split1 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjEwMDAwLCJ0byI6MH0&q=louis+vuitton&s=104&user=1";
         //String split2 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjE1MDAwLCJ0byI6MH0&q=chanel&s=104&user=";
         //String split3 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjEwMDAwLCJ0byI6MH0&q=prada&s=104&user=1";
 
-        Avito parser1 = new Avito(split1, messageDto, stateThread);
+        Avito parser1 = new Avito(split1, messageDto, stateThread, dao);
         //Avito parser2 = new Avito(split2, messageDto, stateThread);
         //Avito parser3 = new Avito(split3, messageDto, stateThread);
 
