@@ -3,14 +3,24 @@ package com.alexeyrand.monitor.monitor;
 
 import com.alexeyrand.monitor.api.client.RequestSender;
 import com.alexeyrand.monitor.api.dto.MessageDto;
-import com.alexeyrand.monitor.service.StateThread;
+import com.alexeyrand.monitor.serviceThread.StateThread;
+import com.alexeyrand.monitor.services.ShopService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-
+//@Component
+//@AllArgsConstructor
+//@RequiredArgsConstructor
 public class Avito implements Runnable {
-    RequestSender requestSender = new RequestSender();
-    String Url;
-    MessageDto messageDto;
-    StateThread stateThread;
+    RequestSender requestSender;
+    private final String Url;
+    private final MessageDto messageDto;
+    private final StateThread stateThread;
+
 
     public Avito(String Url, MessageDto messageDto, StateThread stateThread) {
         this.Url = Url;

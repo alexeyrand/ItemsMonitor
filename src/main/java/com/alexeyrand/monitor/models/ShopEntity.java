@@ -2,23 +2,33 @@ package com.alexeyrand.monitor.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@RequiredArgsConstructor
+@Table(name = "shop_list")
 @AllArgsConstructor
-@Builder
-@Setter
+@RequiredArgsConstructor
 @Getter
+@Setter
 @ToString
-@Table(name = "block_list")
+@Builder
 public class ShopEntity {
 
     @Id
-    @GeneratedValue
-    @Column(name = "shop_id")
-    private Long id;
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="shop_id")
+    private Integer shopId;
 
-    @Column(name = "shop_name")
-    private String name;
+    @Column(name="shop_name")
+    private String shopName;
+
+    @Column(name="blocked")
+    @Builder.Default
+    private boolean blocked = false;
+
+    @OneToOne(mappedBy = "shopEntity")
+    private ItemEntity itemEntity;
 
 }

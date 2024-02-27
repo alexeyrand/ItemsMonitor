@@ -4,7 +4,11 @@ import com.alexeyrand.monitor.api.dto.ItemDto;
 import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +17,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+
+@Component
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class RequestSender {
 
     public void postItemRequest(URI url, ItemDto itemDto) throws IOException, InterruptedException {

@@ -5,11 +5,17 @@ import com.alexeyrand.monitor.api.dto.ItemDto;
 import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.alexeyrand.monitor.api.factories.ItemDtoFactory;
 import com.alexeyrand.monitor.models.Item;
-import com.alexeyrand.monitor.service.StateThread;
+import com.alexeyrand.monitor.models.ShopEntity;
+import com.alexeyrand.monitor.serviceThread.StateThread;
+import com.alexeyrand.monitor.services.ShopService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +27,9 @@ import java.util.function.Predicate;
 
 import static org.openqa.selenium.By.xpath;
 
-
+@Component
+//@RequiredArgsConstructor
+//@AllArgsConstructor
 public class AvitoParser implements Parser {
 
     private final WebDriver driver;
@@ -30,6 +38,7 @@ public class AvitoParser implements Parser {
     private final MessageDto messageDto;
     private final ItemDtoFactory itemDtoFactory = new ItemDtoFactory();
     private final JavascriptExecutor jse;
+    private final ShopService shopService = null;
 
     StateThread stateThread;
     HashSet<String> items = new HashSet<>();
@@ -93,7 +102,8 @@ public class AvitoParser implements Parser {
                     System.gc();
                 }
 
-                System.out.println(item.getShop());
+                shopService.save(ShopEntity.builder().shopName(item.getShop()).build());
+                System.out.println(shopService.getAll());
                 ItemDto itemDto = itemDtoFactory.makeItemDto(item, messageDto.getChatId());
                 try {
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);

@@ -1,4 +1,4 @@
-package com.alexeyrand.monitor.service;
+package com.alexeyrand.monitor.serviceThread;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

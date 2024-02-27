@@ -1,7 +1,9 @@
 package com.alexeyrand.monitor.api.dto;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
+@Component
 @Getter
 @Setter
 @Builder

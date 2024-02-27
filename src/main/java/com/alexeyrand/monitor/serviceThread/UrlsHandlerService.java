@@ -1,4 +1,4 @@
-package com.alexeyrand.monitor.service;
+package com.alexeyrand.monitor.serviceThread;
 
 import com.alexeyrand.monitor.api.dto.UrlDto;
 import org.springframework.stereotype.Component;

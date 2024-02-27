@@ -2,9 +2,9 @@ package com.alexeyrand.monitor.api.controllers;
 
 import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.alexeyrand.monitor.api.dto.UrlDto;
-import com.alexeyrand.monitor.service.ControlThread;
-import com.alexeyrand.monitor.service.StateThread;
-import com.alexeyrand.monitor.service.UrlsHandlerService;
+import com.alexeyrand.monitor.serviceThread.ControlThread;
+import com.alexeyrand.monitor.serviceThread.StateThread;
+import com.alexeyrand.monitor.serviceThread.UrlsHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
