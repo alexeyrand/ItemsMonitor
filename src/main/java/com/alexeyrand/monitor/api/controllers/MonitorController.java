@@ -3,7 +3,6 @@ package com.alexeyrand.monitor.api.controllers;
 import com.alexeyrand.monitor.api.dto.MessageDto;
 import com.alexeyrand.monitor.api.dto.UrlDto;
 import com.alexeyrand.monitor.serviceThread.ControlThread;
-import com.alexeyrand.monitor.serviceThread.DAO;
 import com.alexeyrand.monitor.serviceThread.StateThread;
 import com.alexeyrand.monitor.serviceThread.UrlsHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ public class MonitorController {
 
         System.out.println("Монитор запущен");
         controlThread.go(messageDto);
+        System.out.println("Контроллер отработал");
     }
 
     @GetMapping(value = STOP)

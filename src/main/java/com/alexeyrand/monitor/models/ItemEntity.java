@@ -20,10 +20,12 @@ public class ItemEntity {
     @Column(name="item_id")
     private Integer itemId;
 
+    @Column(name="avito_id")
+    private String avitoId;
+
     @Column(name="item_name")
     private String itemName;
 
-    //@Column(name="shop_id")
     @OneToOne
     @JoinColumn(name = "shop_id")
     private ShopEntity shopEntity;
