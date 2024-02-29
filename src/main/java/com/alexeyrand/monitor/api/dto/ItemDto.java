@@ -17,4 +17,5 @@ public class ItemDto {
     private String image;
     private String description;
     private String chatId;
+    private String shop;
 }

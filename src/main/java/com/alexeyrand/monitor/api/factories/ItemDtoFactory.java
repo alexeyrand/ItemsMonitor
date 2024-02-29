@@ -14,6 +14,7 @@ public class ItemDtoFactory {
                 .description(item.getDescription())
                 .image(item.getImage())
                 .chatId(chatId)
+                .shop(item.getShop())
                 .build();
     }
 }
