@@ -3,6 +3,7 @@ package com.alexeyrand.monitor.monitor;
 
 import com.alexeyrand.monitor.api.client.RequestSender;
 import com.alexeyrand.monitor.api.dto.MessageDto;
+import com.alexeyrand.monitor.repository.ShopRepository;
 import com.alexeyrand.monitor.serviceThread.StateThread;
 import com.alexeyrand.monitor.services.ItemService;
 import com.alexeyrand.monitor.services.ShopService;
@@ -21,6 +22,7 @@ public class Avito implements Runnable {
     private final StateThread stateThread;
     private final ItemService itemService;
     private final ShopService shopService;
+    private final ShopRepository shopRepository;
 
 
 //    public Avito(String Url, MessageDto messageDto, StateThread stateThread) {
@@ -33,7 +35,7 @@ public class Avito implements Runnable {
     @Override
     public void run() {
 
-        Parser avitoParser = new AvitoParser(requestSender, messageDto, stateThread, itemService, shopService);
+        Parser avitoParser = new AvitoParser(requestSender, messageDto, stateThread, itemService, shopService, shopRepository);
         System.out.println(Thread.currentThread().getName());
 
         avitoParser.setup();
@@ -41,12 +43,12 @@ public class Avito implements Runnable {
 
         while (!Thread.interrupted()) {
             avitoParser.start();
-            if (Thread.interrupted()) {
-                break;
-            }
+//            if (Thread.interrupted()) {
+//                break;
+//            }
             try {
                 avitoParser.update();
-                avitoParser.sleep(30);
+                avitoParser.sleep(18);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;

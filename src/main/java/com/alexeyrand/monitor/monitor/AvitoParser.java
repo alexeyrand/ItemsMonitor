@@ -7,6 +7,7 @@ import com.alexeyrand.monitor.api.factories.ItemDtoFactory;
 import com.alexeyrand.monitor.models.Item;
 import com.alexeyrand.monitor.models.ItemEntity;
 import com.alexeyrand.monitor.models.ShopEntity;
+import com.alexeyrand.monitor.repository.ShopRepository;
 import com.alexeyrand.monitor.serviceThread.StateThread;
 import com.alexeyrand.monitor.services.ItemService;
 import com.alexeyrand.monitor.services.ShopService;
@@ -21,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
 import static org.openqa.selenium.By.xpath;
@@ -38,13 +40,14 @@ public class AvitoParser implements Parser {
     private final JavascriptExecutor jse;
     private final ShopService shopService;
     private final ItemService itemService;
+    private final ShopRepository shopRepository;
 
     StateThread stateThread;
     HashSet<String> items = new HashSet<>();
     int order = 1;
     String[] dates = {"1 минуту назад", "2 минуты назад", "3 минуты назад", "4 минуты назад", "5 минут назад", "Несколько секунд назад"};
 
-    public AvitoParser(RequestSender requestSender, MessageDto messageDto, StateThread stateThread, ItemService itemService, ShopService shopService) {
+    public AvitoParser(RequestSender requestSender, MessageDto messageDto, StateThread stateThread, ItemService itemService, ShopService shopService, ShopRepository shopRepository) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("disable-infobars"); // disabling infobars
         options.addArguments("--disable-extensions"); // disabling extensions
@@ -52,7 +55,6 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-javascript");
-
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
 
@@ -62,6 +64,7 @@ public class AvitoParser implements Parser {
         this.messageDto = messageDto;
         this.itemService = itemService;
         this.shopService = shopService;
+        this.shopRepository = shopRepository;
 
     }
 
@@ -93,21 +96,30 @@ public class AvitoParser implements Parser {
                 break;
             }
 
-            TimeUnit.SECONDS.sleep(4);
+            TimeUnit.SECONDS.sleep(6);
             Item item = new Item(e, order++);
             Predicate<String> isContains = x -> items.contains(x);
+            AtomicBoolean ttt = new AtomicBoolean(false);
 
-            if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate())) {
+            shopRepository.findByShopName(item.getShop())
+                    .ifPresent(shopEntity -> {
+                        ttt.set(shopEntity.isBlocked());});
 
-                ShopEntity shop = ShopEntity.builder().shopName(item.getShop()).build();
-                shopService.save(shop);
+            if (!isContains.test(item.getId()) && Arrays.asList(dates).contains(item.getDate()) && !ttt.get()) {
 
-                itemService.save(ItemEntity
-                        .builder()
-                        .avitoId(item.getId())
-                        .itemName(item.getName())
-                        .shopEntity(shop)
-                        .build());
+
+                if (shopRepository.findByShopName(item.getShop()).isEmpty()) {
+                    ShopEntity shop = ShopEntity.builder().shopName(item.getShop()).build();
+                    shopService.save(shop);
+                }
+
+
+//                itemService.save(ItemEntity
+//                        .builder()
+//                        .avitoId(item.getId())
+//                        .itemName(item.getName())
+//                        .shopEntity(shop)
+//                        .build());
 
                 driver.manage().deleteAllCookies();
                 items.add(item.getId());

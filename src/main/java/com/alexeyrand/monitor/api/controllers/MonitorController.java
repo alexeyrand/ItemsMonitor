@@ -29,10 +29,8 @@ public class MonitorController {
 
     @PostMapping(value = START, consumes = {"application/json"})
     public void startParse(@RequestBody MessageDto messageDto) {
-
         System.out.println("Монитор запущен");
         controlThread.go(messageDto);
-        System.out.println("Контроллер отработал");
     }
 
     @GetMapping(value = STOP)
@@ -49,11 +47,10 @@ public class MonitorController {
 
 
     @GetMapping(value = BLOCK_LIST)
-    public void test(@PathVariable String shop_name) throws InterruptedException {
-        ShopEntity shopEntity = shopService.getByName(shop_name).get();
+    public void addBlockList(@PathVariable String shop_name) throws InterruptedException {
+        ShopEntity shopEntity = shopService.getByName("https://www.avito.ru/user/" + shop_name + "/profile?src=search_seller_info").get();
         shopEntity.setBlocked(true);
         shopService.save(shopEntity);
-        System.out.println("Поменял");
 
         }
 }

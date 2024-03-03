@@ -21,7 +21,7 @@ public class Item implements Comparable<Item> {
     private final String price;
     private final String date;
     private final Integer order;
-    private final String description;
+    private String description;
     private String image;
     private String shop;
 
@@ -33,8 +33,11 @@ public class Item implements Comparable<Item> {
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
         this.order = order;
-        this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
-
+        try {
+            this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
+        } catch (NoSuchElementException NSEE) {
+            this.description = "No description";
+        }
         try {
             String imageSet = selector.findElement(By.xpath("//*[@id=\"i" + this.id + "\"]/div/div/div[1]/a/div/div/ul/li/div/img")).getAttribute("srcset");
             this.image = imageSet.split(",")[4].split(" ")[0];
