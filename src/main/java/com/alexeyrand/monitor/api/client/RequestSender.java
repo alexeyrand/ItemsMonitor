@@ -16,6 +16,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @Component
@@ -74,13 +76,14 @@ public class RequestSender {
                 .POST(HttpRequest.BodyPublishers.ofString(jsonMessageDto))
                 .build();
 
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-//        try {
-//            String response = responseFuture.get().body();
-//            System.out.println(response);
-//        } catch (ExecutionException | InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+        CompletableFuture<HttpResponse<String>> responseFuture =  client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            if (responseFuture.get().statusCode() == 200) {
+                System.out.println("Монитор запустился");
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

@@ -15,8 +15,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class ShopEntity {
 
     @Id
-    //@GenericGenerator(name = "generator", strategy = "increment")
-    //@GeneratedValue(generator = "generator")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="shop_id")
     private Integer shopId;

@@ -17,25 +17,14 @@ import java.net.URI;
 //@AllArgsConstructor
 @RequiredArgsConstructor
 public class ControlThread {
+
     private final RequestSender requestSender;
-    //private static final UrlsHandlerService urlsHandlerService = new UrlsHandlerService();
-    private String host = "http://localhost:8080/api/v1/status";
-    @Autowired
-    private StateThread stateThread;
-    @Autowired
-    private ItemService itemService;
-    @Autowired
-    private ShopService shopService;
-    @Autowired
-    private ShopRepository shopRepository;
+    private final StateThread stateThread;
+    private final ItemService itemService;
+    private final ShopService shopService;
+    private final ShopRepository shopRepository;
 
-    public void go(MessageDto messageDto) {
-
-        //List<String> urls = urlsHandlerService.getUrls();
-
-//        String[] split1 = urls.get(0).split(" -> ");
-//        String[] split2 = urls.get(1).split(" -> ");
-//        String[] split3 = urls.get(2).split(" -> ");
+    public void startAllThreads(MessageDto messageDto) {
 
         String split1 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjEwMDAwLCJ0byI6MH0&q=louis+vuitton&s=104&user=1";
         //String split2 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjE1MDAwLCJ0byI6MH0&q=chanel&s=104&user=";
@@ -51,11 +40,10 @@ public class ControlThread {
         //Thread thread3 = new Thread(parser3);
 
         thread1.start();
-
         //thread2.start();
         //thread3.start();
 
-        requestSender.statusRequest(URI.create(host + "?status=start"), messageDto);
+
 
     }
 }
