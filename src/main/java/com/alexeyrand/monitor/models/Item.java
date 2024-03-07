@@ -54,14 +54,6 @@ public class Item implements Comparable<Item> {
         } catch (NoSuchElementException NSEE) {
              this.shop = "";
         }
-        //  Optional<String> imageOptional = Optional.ofNullable(selector.findElement(By.cssSelector("[class*='photo-slider-image']")).getAttribute("setSrc"));
-//try {
-//    this.image = imageOptional.orElse("No photo");
-//} catch (NoSuchElementException NSEE) {
-//    System.out.println(NSEE.getMessage());
-
-//}
-        //count++;
     }
 
     @Override

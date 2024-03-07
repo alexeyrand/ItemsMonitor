@@ -14,8 +14,6 @@ import lombok.*;
 public class ItemEntity {
 
     @Id
-    //@GenericGenerator(name = "generator", strategy = "increment")
-    //@GeneratedValue(generator = "generator")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="item_id")
     private Integer itemId;

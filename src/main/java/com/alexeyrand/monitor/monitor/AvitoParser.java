@@ -55,7 +55,9 @@ public class AvitoParser implements Parser {
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-javascript");
-        options.addArguments("--headless");
+        options.addArguments("--incognito");
+
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
 
         this.jse = (JavascriptExecutor) driver;
@@ -98,6 +100,7 @@ public class AvitoParser implements Parser {
 
             TimeUnit.SECONDS.sleep(6);
             Item item = new Item(e, order++);
+            System.out.println(item);
             Predicate<String> isContains = x -> items.contains(x);
             AtomicBoolean ttt = new AtomicBoolean(false);
 

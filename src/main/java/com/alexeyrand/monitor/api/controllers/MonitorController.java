@@ -1,56 +1,53 @@
 package com.alexeyrand.monitor.api.controllers;
 
+import com.alexeyrand.monitor.api.client.RequestSender;
 import com.alexeyrand.monitor.api.dto.MessageDto;
-import com.alexeyrand.monitor.api.dto.UrlDto;
 import com.alexeyrand.monitor.models.ShopEntity;
 import com.alexeyrand.monitor.serviceThread.ControlThread;
 import com.alexeyrand.monitor.serviceThread.StateThread;
-import com.alexeyrand.monitor.serviceThread.UrlsHandlerService;
 import com.alexeyrand.monitor.services.ShopService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class MonitorController {
 
-    @Autowired
-    private StateThread stateThread;
-    @Autowired
-    private ControlThread controlThread;
-    @Autowired
-    private ShopService shopService;
-    private final UrlsHandlerService urlsHandlerService = new UrlsHandlerService();
+
+    private final StateThread stateThread;
+    private final ControlThread controlThread;
+    private final ShopService shopService;
+    private final RequestSender requestSender;
 
     private static final String START = "/start";
     private static final String STOP = "/stop";
     private static final String URLS = "/urls";
+    private static final String STATUS = "/status";
     private static final String BLOCK_LIST = "/block/{shop_name}";
 
     @PostMapping(value = START, consumes = {"application/json"})
     public void startParse(@RequestBody MessageDto messageDto) {
-        System.out.println("Монитор запущен");
-        controlThread.go(messageDto);
+        controlThread.startAllThreads(messageDto);
     }
 
     @GetMapping(value = STOP)
     public void stopParse() {
-        System.out.println("Команда на остановку потоков");
         stateThread.setStopFlag(true);
     }
 
-    @PostMapping(value = URLS, consumes = {"application/json"})
-    public void getUrl(@RequestBody UrlDto urlDto) {
-        System.out.println(urlDto);
-        urlsHandlerService.setUrls(urlDto);
-    }
-
-
     @GetMapping(value = BLOCK_LIST)
-    public void addBlockList(@PathVariable String shop_name) throws InterruptedException {
+    public void addBlockList(@PathVariable String shop_name) {
         ShopEntity shopEntity = shopService.getByName("https://www.avito.ru/user/" + shop_name + "/profile?src=search_seller_info").get();
         shopEntity.setBlocked(true);
         shopService.save(shopEntity);
-
         }
+
+
+    @PostMapping(value = STATUS, consumes = {"application/json"})
+    public void getStatus(@RequestBody MessageDto messageDto) {
+        requestSender.statusRequest(URI.create("http://localhost:8080/api/v1/status?status=state"), messageDto);
+    }
 }
