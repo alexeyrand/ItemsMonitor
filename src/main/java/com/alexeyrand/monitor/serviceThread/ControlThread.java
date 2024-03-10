@@ -27,20 +27,21 @@ public class ControlThread {
     public void startAllThreads(MessageDto messageDto) {
 
         String split1 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjEwMDAwLCJ0byI6MH0&q=louis+vuitton&s=104&user=1";
-        //String split2 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjE1MDAwLCJ0byI6MH0&q=chanel&s=104&user=";
+        String split2 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjE1MDAwLCJ0byI6MH0&q=chanel&s=104&user=";
         //String split3 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjEwMDAwLCJ0byI6MH0&q=prada&s=104&user=1";
 
         Avito parser1 = new Avito(requestSender, messageDto, stateThread, itemService, shopService, shopRepository);
         parser1.setUrl(split1);
-        //Avito parser2 = new Avito(split2, messageDto, stateThread);
+        Avito parser2 = new Avito(requestSender, messageDto, stateThread, itemService, shopService, shopRepository);
+        parser2.setUrl(split2);
         //Avito parser3 = new Avito(split3, messageDto, stateThread);
 
         Thread thread1 = new Thread(parser1);
-        //Thread thread2 = new Thread(parser2);
+        Thread thread2 = new Thread(parser2);
         //Thread thread3 = new Thread(parser3);
 
         thread1.start();
-        //thread2.start();
+        thread2.start();
         //thread3.start();
 
 
