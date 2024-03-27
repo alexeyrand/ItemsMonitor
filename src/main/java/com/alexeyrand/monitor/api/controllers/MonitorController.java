@@ -29,7 +29,7 @@ public class MonitorController {
     private static final String BLOCK_LIST = "/block/{shop_name}";
 
     @PostMapping(value = START, consumes = {"application/json"})
-    public void startParse(@RequestBody MessageDto messageDto) {
+    public void startParse(@RequestBody MessageDto messageDto) throws InterruptedException {
         controlThread.startAllThreads(messageDto);
     }
 

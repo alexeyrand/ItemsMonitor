@@ -24,7 +24,7 @@ public class ControlThread {
     private final ShopService shopService;
     private final ShopRepository shopRepository;
 
-    public void startAllThreads(MessageDto messageDto) {
+    public void startAllThreads(MessageDto messageDto) throws InterruptedException {
 
         String split1 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjEwMDAwLCJ0byI6MH0&q=louis+vuitton&s=104&user=1";
         String split2 = "https://www.avito.ru/all/odezhda_obuv_aksessuary/sumki_ryukzaki_i_chemodany-ASgBAgICAUTeArip1gI?cd=1&f=ASgBAgECAUTeArip1gIBRcaaDBV7ImZyb20iOjE1MDAwLCJ0byI6MH0&q=chanel&s=104&user=1";
@@ -42,7 +42,9 @@ public class ControlThread {
         Thread thread3 = new Thread(parser3);
 
         thread1.start();
+        Thread.sleep(2000);
         thread2.start();
+        Thread.sleep(4000);
         thread3.start();
 
 
