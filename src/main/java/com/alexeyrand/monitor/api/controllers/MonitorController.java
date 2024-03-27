@@ -40,7 +40,7 @@ public class MonitorController {
 
     @GetMapping(value = BLOCK_LIST)
     public void addBlockList(@PathVariable String shop_name) {
-        ShopEntity shopEntity = shopService.getByName("https://www.avito.ru/user/" + shop_name + "/profile?src=search_seller_info").get();
+        ShopEntity shopEntity = shopService.findByName("https://www.avito.ru/user/" + shop_name + "/profile?src=search_seller_info").get();
         shopEntity.setBlocked(true);
         shopService.save(shopEntity);
         }

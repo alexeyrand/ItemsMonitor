@@ -44,12 +44,12 @@ public class RequestSender {
                 .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonItemDto))
                 .build();
-//        System.out.println(request.toString());
+
 //        CompletableFuture<HttpResponse<String>> responseFuture =
-                client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 //        try {
 //            String response = responseFuture.get().toString();
-//
+//            System.out.println(response);
 //        } catch (ExecutionException e) {
 //            throw new RuntimeException(e);
 //        }

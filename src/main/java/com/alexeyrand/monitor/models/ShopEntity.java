@@ -26,7 +26,5 @@ public class ShopEntity {
     @Builder.Default
     private boolean blocked = false;
 
-    @OneToOne(mappedBy = "shopEntity")
-    private ItemEntity itemEntity;
 
 }

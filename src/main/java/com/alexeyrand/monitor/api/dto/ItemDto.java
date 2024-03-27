@@ -13,7 +13,6 @@ public class ItemDto {
     private  String href;
     private  String price;
     private  String date;
-    private  Integer order;
     private String image;
     private String description;
     private String chatId;

@@ -20,19 +20,17 @@ public class Item implements Comparable<Item> {
     private final String href;
     private final String price;
     private final String date;
-    private final Integer order;
     private String description;
     private String image;
     private String shop;
 
-    public Item(WebElement selector, int order) {
+    public Item(WebElement selector) {
         this.selector = selector;
         this.name = selector.findElement(By.cssSelector("h3[itemprop ='name']")).getText();
         this.id = selector.getAttribute("id").substring(1);
         this.href = selector.findElement(By.cssSelector("a[itemprop ='url']")).getAttribute("href");
         this.price = selector.findElement(By.cssSelector("meta[itemprop ='price']")).getAttribute("content");
         this.date = selector.findElement(By.cssSelector("p[data-marker='item-date']")).getText();
-        this.order = order;
         try {
             this.description = selector.findElement(By.cssSelector("div[class*=item-descriptionStep]")).getText();
         } catch (NoSuchElementException NSEE) {
@@ -79,7 +77,6 @@ public class Item implements Comparable<Item> {
         return "Item{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", order='" + order + '\'' +
                 '}';
     }
 

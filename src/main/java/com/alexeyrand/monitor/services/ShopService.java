@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ShopService{
+public class ShopService {
 
     private final ShopRepository shopRepository;
 
@@ -31,12 +31,8 @@ public class ShopService{
     }
 
 
-    public Optional<ShopEntity> getByName(String name) {
-        Optional<ShopEntity> oShop = shopRepository.findByShopName(name);
-        return oShop;
-//        shopEntity.setBlocked(true);
-//        shopRepository.save(shopEntity);
+    public Optional<ShopEntity> findByName(String name) {
+        return shopRepository.findByShopName(name);
     }
-
 
 }
