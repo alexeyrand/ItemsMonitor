@@ -54,7 +54,7 @@ public class AvitoParser implements Parser {
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-javascript");
         options.addArguments("--incognito");
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
 
         this.jse = (JavascriptExecutor) driver;
@@ -124,6 +124,7 @@ public class AvitoParser implements Parser {
                     itemService.save(itemEntity);
                     ItemDto itemDto = itemDtoFactory.makeItemDto(itemEntity, messageDto.getChatId());
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
+                    System.out.println("Отправил: " + itemDto.getName());
 
                 } else {
                     ShopEntity shopEntity = shopService.findByName(shop).get();
@@ -131,6 +132,7 @@ public class AvitoParser implements Parser {
                     itemService.save(itemEntity);
                     ItemDto itemDto = itemDtoFactory.makeItemDto(itemEntity, messageDto.getChatId());
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
+                    System.out.println("Отправил: " + itemDto.getName());
                 }
 
                 driver.manage().deleteAllCookies();
