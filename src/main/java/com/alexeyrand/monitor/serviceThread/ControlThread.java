@@ -42,9 +42,9 @@ public class ControlThread {
         Thread thread3 = new Thread(parser3);
 
         thread1.start();
-        Thread.sleep(2000);
+        Thread.sleep(500);
         thread2.start();
-        Thread.sleep(4000);
+        Thread.sleep(400);
         thread3.start();
 
 

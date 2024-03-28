@@ -124,7 +124,7 @@ public class AvitoParser implements Parser {
                     itemService.save(itemEntity);
                     ItemDto itemDto = itemDtoFactory.makeItemDto(itemEntity, messageDto.getChatId());
                     requestSender.postItemRequest(URI.create("http://localhost:8080/api/v1/items"), itemDto);
-                    System.out.println("Отправил: " + itemDto.getName());
+                    //System.out.println("Отправил: " + itemDto.getName());
 
                 } else {
                     ShopEntity shopEntity = shopService.findByName(shop).get();
